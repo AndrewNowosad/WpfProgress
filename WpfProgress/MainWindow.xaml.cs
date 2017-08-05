@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfProgress
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            Timer timer = new Timer(10);
+            timer.Elapsed += TimerElapsed;
+            timer.Start();
+            Closing += (s, e) => timer.Stop();
+        }
+
+        double delta = 0.1;
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ProgressBar1.Value += delta;
+                if (ProgressBar1.Value >= ProgressBar1.Maximum ||
+                    ProgressBar1.Value <= ProgressBar1.Minimum) delta = -delta;
+            });
         }
     }
 }

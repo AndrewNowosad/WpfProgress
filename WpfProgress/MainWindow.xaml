@@ -5,10 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfProgress"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary Source="ResourceDictionary.xaml"/>
+    </Window.Resources>
+    
     <Grid>
-        <ProgressBar Value="75" Minimum="0" Maximum="100"
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <ProgressBar Name="ProgressBar1" Grid.Row="0"
+                     Style="{DynamicResource SemicircleProgressBarStyle}"
+                     Value="75" Minimum="0" Maximum="100"
                      VerticalAlignment="Center" HorizontalAlignment="Center"
-                     Height="50" Width="100"/>
+                     Height="100" Width="200"/>
+
+        <ProgressBar Name="ProgressBar2" Grid.Row="1"
+                     Style="{DynamicResource SemicircleProgressBarStyle}"
+                     IsIndeterminate="True"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     Height="100" Width="200"/>
     </Grid>
 </Window>
