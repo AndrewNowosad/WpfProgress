@@ -7,10 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
         WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <ResourceDictionary Source="ResourceDictionary.xaml"/>
-    </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,14 +18,12 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <ProgressBar Name="ProgressBar1" Grid.Row="0"
-                     Style="{DynamicResource SemicircleProgressBarStyle}"
+        <ProgressBar Name="ProgressBar1" Grid.Row="0" Grid.Column="0"
                      Value="75" Minimum="0" Maximum="100"
                      VerticalAlignment="Center" HorizontalAlignment="Center"
                      Height="100" Width="200"/>
 
-        <ProgressBar Name="ProgressBar2" Grid.Row="1"
-                     Style="{DynamicResource SemicircleProgressBarStyle}"
+        <ProgressBar Name="ProgressBar2" Grid.Row="1" Grid.Column="0"
                      IsIndeterminate="True"
                      VerticalAlignment="Center" HorizontalAlignment="Center"
                      Height="100" Width="200"/>
