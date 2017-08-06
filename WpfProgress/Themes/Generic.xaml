@@ -8,6 +8,8 @@
             <local:ValueToAuxiliaryPointConverter x:Key="ValueToAuxiliaryPointConverter"/>
             <local:RadiusToSizeConverter x:Key="RadiusToSizeConverter"/>
             <sys:Double x:Key="OneDouble">1.0</sys:Double>
+            <sys:Double x:Key="ZeroDouble">0.0</sys:Double>
+            <sys:Double x:Key="QuarterDouble">0.25</sys:Double>
             <SolidColorBrush x:Key="SPB.Progress" Color="#FF06B025"/>
             <SolidColorBrush x:Key="SPB.Background" Color="#FFE6E6E6"/>
             <SolidColorBrush x:Key="SPB.Border" Color="#FFBCBCBC"/>
@@ -20,6 +22,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SemicircleProgressBar}">
                     <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Determinate"/>
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                         Storyboard.TargetName="Animation"
+                                                         From="0" To="135"
+                                                         Duration="0:0:1"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                         Storyboard.TargetName="Animation"
+                                                         From="135" To="0"
+                                                         Duration="0:0:1" BeginTime="0:0:1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <Path Stretch="Uniform" Fill="{TemplateBinding Background}"
                               Stroke="{TemplateBinding BorderBrush}"
                               StrokeThickness="{TemplateBinding BorderThickness}">
@@ -40,7 +59,8 @@
                                 </CombinedGeometry>
                             </Path.Data>
                         </Path>
-                        <Path Stretch="Uniform" Fill="{TemplateBinding Foreground}"
+                        <Path Name="Indicator" Stretch="Uniform"
+                              Fill="{TemplateBinding Foreground}"
                               Stroke="{TemplateBinding BorderBrush}"
                               StrokeThickness="{TemplateBinding BorderThickness}">
                             <Path.Data>
@@ -86,7 +106,64 @@
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
+                        <Path Name="Animation" Stretch="Uniform"
+                              Fill="{TemplateBinding Foreground}"
+                              Stroke="{TemplateBinding BorderBrush}"
+                              StrokeThickness="{TemplateBinding BorderThickness}"
+                              Visibility="Collapsed" RenderTransformOrigin="0.5,1">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="0,1">
+                                        <ArcSegment Size="1,1" SweepDirection="Clockwise">
+                                            <ArcSegment.Point>
+                                                <MultiBinding Converter="{StaticResource ValueToAuxiliaryPointConverter}">
+                                                    <Binding Source="{StaticResource QuarterDouble}"/>
+                                                    <Binding Source="{StaticResource ZeroDouble}"/>
+                                                    <Binding Source="{StaticResource OneDouble}"/>
+                                                    <Binding Source="{StaticResource OneDouble}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Point>
+                                        </ArcSegment>
+                                        <LineSegment>
+                                            <LineSegment.Point>
+                                                <MultiBinding Converter="{StaticResource ValueToAuxiliaryPointConverter}">
+                                                    <Binding Source="{StaticResource QuarterDouble}"/>
+                                                    <Binding Source="{StaticResource ZeroDouble}"/>
+                                                    <Binding Source="{StaticResource OneDouble}"/>
+                                                    <Binding Path="CuttingFactor" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                                </MultiBinding>
+                                            </LineSegment.Point>
+                                        </LineSegment>
+                                        <ArcSegment Size="{Binding Path=CuttingFactor,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Converter={StaticResource RadiusToSizeConverter}}">
+                                            <ArcSegment.Point>
+                                                <MultiBinding Converter="{StaticResource ValueToAuxiliaryPointConverter}">
+                                                    <Binding Source="{StaticResource ZeroDouble}"/>
+                                                    <Binding Source="{StaticResource ZeroDouble}"/>
+                                                    <Binding Source="{StaticResource OneDouble}"/>
+                                                    <Binding Path="CuttingFactor" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                                </MultiBinding>
+                                            </ArcSegment.Point>
+                                        </ArcSegment>
+                                        <LineSegment Point="0,1"/>
+                                    </PathFigure>
+                                    <PathFigure StartPoint="0,0">
+                                        <LineSegment Point="2,1" IsStroked="False"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                            <Path.RenderTransform>
+                                <RotateTransform/>
+                            </Path.RenderTransform>
+                        </Path>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="true">
+                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            <Setter Property="Visibility" TargetName="Animation" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
