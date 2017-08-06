@@ -12,7 +12,8 @@ namespace WpfProgress
         }
 
         public static DependencyProperty CuttingFactorProperty =
-            DependencyProperty.Register(nameof(CuttingFactor), typeof(double), typeof(SemicircleProgressBar));
+            DependencyProperty.Register(nameof(CuttingFactor), typeof(double),
+                typeof(SemicircleProgressBar), new FrameworkPropertyMetadata(0.8));
 
         public double CuttingFactor
         {
