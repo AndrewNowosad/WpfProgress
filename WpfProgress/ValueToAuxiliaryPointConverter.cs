@@ -15,10 +15,11 @@ namespace WpfProgress
             var v = (double)values[0];
             var min = (double)values[1];
             var max = (double)values[2];
+            var r = (double)values[3];
             var ratio = (v - min) / (max - min);
             var angle = Math.PI * ratio;
-            var x = 1 - Math.Cos(angle);
-            var y = 1 - Math.Sin(angle);
+            var x = 1 - r * Math.Cos(angle);
+            var y = 1 - r * Math.Sin(angle);
             return new Point(x, y);
         }
 
