@@ -8,7 +8,14 @@
             <local:ValueToAuxiliaryPointConverter x:Key="ValueToAuxiliaryPointConverter"/>
             <local:RadiusToSizeConverter x:Key="RadiusToSizeConverter"/>
             <sys:Double x:Key="OneDouble">1.0</sys:Double>
+            <SolidColorBrush x:Key="SPB.Progress" Color="#FF06B025"/>
+            <SolidColorBrush x:Key="SPB.Background" Color="#FFE6E6E6"/>
+            <SolidColorBrush x:Key="SPB.Border" Color="#FFBCBCBC"/>
         </Style.Resources>
+        <Setter Property="Foreground" Value="{StaticResource SPB.Progress}"/>
+        <Setter Property="Background" Value="{StaticResource SPB.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SPB.Border}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SemicircleProgressBar}">
@@ -27,8 +34,8 @@
                                     </CombinedGeometry.Geometry1>
                                     <CombinedGeometry.Geometry2>
                                         <EllipseGeometry Center="1,1"
-                                                         RadiusX="{TemplateBinding CuttingFactor}"
-                                                         RadiusY="{TemplateBinding CuttingFactor}"/>
+                                                         RadiusX="{Binding CuttingFactor, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         RadiusY="{Binding CuttingFactor, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </CombinedGeometry.Geometry2>
                                 </CombinedGeometry>
                             </Path.Data>
