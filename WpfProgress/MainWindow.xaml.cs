@@ -21,6 +21,7 @@ namespace WpfProgress
             Dispatcher.Invoke(() =>
             {
                 ProgressBar1.Value += delta;
+                SemiCpb1.Value = ProgressBar1.Value;
                 if (ProgressBar1.Value >= ProgressBar1.Maximum ||
                     ProgressBar1.Value <= ProgressBar1.Minimum) delta = -delta;
             });

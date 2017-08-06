@@ -16,6 +16,10 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         
         <ProgressBar Name="ProgressBar1" Grid.Row="0"
                      Style="{DynamicResource SemicircleProgressBarStyle}"
@@ -28,5 +32,17 @@
                      IsIndeterminate="True"
                      VerticalAlignment="Center" HorizontalAlignment="Center"
                      Height="100" Width="200"/>
+
+        <local:SemicircleProgressBar x:Name="SemiCpb1" Grid.Row="0" Grid.Column="1"
+                                     Value="75" Minimum="0" Maximum="100"
+                                     CuttingFactor="0.8"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                     Height="100" Width="200"/>
+
+        <local:SemicircleProgressBar x:Name="SemiCpb2" Grid.Row="1" Grid.Column="1"
+                                     IsIndeterminate="True"
+                                     CuttingFactor="0.8"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                     Height="100" Width="200"/>
     </Grid>
 </Window>
